@@ -1,0 +1,27 @@
+
+body{
+   color: green;text-align: center;    
+   place-items: normal;
+   min-width: auto;
+   min-height: 100vh;
+    background-color: rgb(161, 194, 178);
+}
+#root{
+    width: 100%;
+}
+.Home{
+    display: flex;flex-direction: row;justify-content: space-evenly;height: 50vh;align-items: center;
+    flex-wrap: wrap;margin: 50px;
+}
+.Home button{font-size: 25px;
+    border-radius: 50%;background-color: black;width:150px;height: 150px;
+}
+.keep{
+    display: flex;flex-direction: column;justify-content: center;
+}
+img{
+    width: 200px;height: 200px;border-radius: 50%;
+}
+.main{
+    display: flex;flex-direction: column;justify-content: center;align-items: center;
+}

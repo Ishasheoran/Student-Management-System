@@ -1,0 +1,82 @@
+/* body{
+margin: auto;
+} */
+#sign {
+    display: flex;margin: 5px;
+    border: 2px solid green;height: max-content;
+    padding: 40px;width: max-content;border-radius: 5px;
+    flex-direction: column; /* Aligns inputs in a row */
+    align-items: center; /* Centers items vertically */
+    gap: 15px; /* Space between inputs */
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  .sidebar-container {
+    position: fixed;
+    height: 100vh;
+    display: flex;
+    align-items: center;justify-content: center;
+  }
+  
+  .toggle-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(161, 194, 178);;
+    color: white;
+    border: none;
+    padding: 10px;  
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .sidebar {
+    background-color: green;
+    height: 100%;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;padding-top: 150px;
+    transition: width 0.3s ease;
+  }
+  
+  .sidebar.closed {
+    width: 30px;
+  }
+  
+  .sidebar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar a:hover {
+    background-color: #007bff;
+  }
+  
+  .sidebar svg {
+    margin-right: 10px;
+  }
+  
