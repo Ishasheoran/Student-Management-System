@@ -19,7 +19,7 @@ const Exam = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:8000/api/exam/student?registrationNumber=${registrationNumber}`);
+        const response = await axios.get(`https://student-management-system-pm1u.onrender.com/api/exam/student?registrationNumber=${registrationNumber}`);
 
         if (response.data.success) {
           setExamData(response.data.exam);
