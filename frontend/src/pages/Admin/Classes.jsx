@@ -31,7 +31,7 @@ const AdminClasses = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/class",
+        "https://student-management-system-pm1u.onrender.com/api/class",
         {
           grade: newDeptName,
           Sem: newSemName,
