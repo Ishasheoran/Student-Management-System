@@ -25,8 +25,8 @@ const fetchClassesWithSubjects = async () => {
     try {
         // Updated endpoint to match the router
         const [classesRes, subjectsRes] = await Promise.all([
-            axios.get("http://localhost:8000/api/class"),
-            axios.get("http://localhost:8000/api/class/subjects")
+            axios.get("https://student-management-system-pm1u.onrender.com/api/class"),
+            axios.get("https://student-management-system-pm1u.onrender.com/api/class/subjects")
         ]);
 
         setClasses(classesRes.data.classes || []);
@@ -40,7 +40,7 @@ const fetchClassesWithSubjects = async () => {
 };
     const fetchExams = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/exam/getall");
+            const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/exam/getall");
             setExamData(Array.isArray(response.data.exams) ? response.data.exams : []);
         } catch (error) {
             console.error("Error fetching exams:", error);
@@ -72,7 +72,7 @@ const fetchClassesWithSubjects = async () => {
                 return;
             }
 
-            const response = await axios.post("http://localhost:8000/api/exam", newExam);
+            const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/exam", newExam);
             
             if (response.data.success) {
                 toast.success("Exam record added successfully!");
@@ -109,7 +109,7 @@ const fetchClassesWithSubjects = async () => {
         setIsUploading(true);
         
         try {
-            const response = await axios.post("http://localhost:8000/api/exam/bulk", formData, {
+            const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/exam/bulk", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
