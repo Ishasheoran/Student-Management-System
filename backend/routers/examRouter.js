@@ -1,29 +1,27 @@
-// import express from "express"
-// // import ExamController from '../controller/ExamController.js';
-// import {createExam,getAllExams} from "../controller/examController.js"
-// const router=express.Router();
-// router.get('/getall',getAllExams);
-// router.post('/',createExam);
-// export default router;
 
-// import express from "express";
-// import { getAllExams, addOrUpdateExam } from "../controller/examController.js";  // ✅ Make sure both are correctly imported
-
-// const router = express.Router();
-
-// router.get("/getall", getAllExams);
-// router.post("/", addOrUpdateExam);
-
-// export default router;
 
 import express from "express";
-import { getAllExams, addOrUpdateExam,getStudentExamResults } from "../controller/examController.js";  // ✅ Import correctly
+import multer from "multer";
+import { 
+    getAllExams, 
+    addOrUpdateExam,
+    getStudentExamResults,
+    bulkUploadExams
+} from "../controller/examController.js";
 
+const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
 
+// Get all exams
 router.get('/getall', getAllExams);
-router.post('/', addOrUpdateExam);
-router.get("/student", getStudentExamResults);
-// router.get('/student', getStudentExams); 
-export default router;
 
+// Add or update single exam record
+router.post('/', addOrUpdateExam);
+
+// Get student exam results
+router.get("/student", getStudentExamResults);
+
+// Bulk upload exams
+router.post("/bulk", upload.single('file'), bulkUploadExams);
+
+export default router;

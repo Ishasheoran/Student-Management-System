@@ -1,107 +1,101 @@
 
 import express from "express";
+import Student from "../models/studentSchema.js";
 import { createStudent, getAllStudents, studentLogin, getStudentsByGrade } from "../controller/studentController.js";
-
-import Student from "../models/studentSchema.js"; // Ensure this is imported
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
-router.get("/grade/:grade", getStudentsByGrade);
-
-
-router.get('/getall', getAllStudents);
-
-
-router.post('/', createStudent);
-
-
-router.post("/login", studentLogin);
 
 const generateNextRegNumber = async () => {
-    // Get the last student in the database based on registration number
-    const lastStudent = await Student.findOne().sort({ registrationNumber: -1 });
+  // Only find students that actually HAVE a registration number
+  const lastStudent = await Student.findOne({
+    registrationNumber: { $exists: true, $ne: null }
+  }).sort({ registrationNumber: -1 });
 
-    // Start with a base registration number if no students exist
-    let nextRegNumber = lastStudent ? parseInt(lastStudent.registrationNumber, 10) + 1 : 21134501004;
+  let nextRegNumber;
 
-    return nextRegNumber.toString(); // Convert back to string
+  if (lastStudent && !isNaN(parseInt(lastStudent.registrationNumber, 10))) {
+    nextRegNumber = parseInt(lastStudent.registrationNumber, 10) + 1;
+  } else {
+    // If no students exist, start with 21134501001
+    nextRegNumber = 21134501001;
+  }
+
+  console.log(`✅ Next Registration Number: ${nextRegNumber}`);
+  return nextRegNumber;
 };
 
 
-// router.post("/bulk", async (req, res) => {
-//     try {
-//         console.log("🚀 Received student data:", JSON.stringify(req.body, null, 2));
-
-//         const { students } = req.body;
-
-//         if (!Array.isArray(students) || students.length === 0) {
-//             return res.status(400).json({ message: "Invalid data format. 'students' must be a non-empty array." });
-//         }
-
-//         // ✅ Validate all students before insertion
-//         const validatedStudents = [];
-//         for (let student of students) {
-//             if (!student.name || !student.email || !student.password || !student.grade.trim()) {
-//                 console.error("❌ Missing fields for student:", student);
-//                 return res.status(400).json({ message: "Missing required fields (name, email, grade, password)" });
-//             }
-
-//             // ✅ Assign unique registration numbers
-//             const regNumber = await generateNextRegNumber();
-//             validatedStudents.push({ ...student, registrationNumber: regNumber });
-//         }
-
-//         console.log("✅ Inserting students into database...");
-//         const addedStudents = await Student.insertMany(validatedStudents);
-//         console.log("🎉 Students added successfully!", addedStudents);
-
-//         res.status(201).json({ students: addedStudents });
-
-//     } catch (error) {
-//         console.error("🔥 Error adding students:", error);
-//         res.status(500).json({ message: "Error adding students", error: error.message });
-//     }
-// });
-
+// ✅ Bulk Student Registration with Unique Registration Numbers
 router.post("/bulk", async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
         console.log("🚀 Received student data:", JSON.stringify(req.body, null, 2));
-
         const { students } = req.body;
 
         if (!Array.isArray(students) || students.length === 0) {
             return res.status(400).json({ message: "Invalid data format. 'students' must be a non-empty array." });
         }
 
-        // ✅ Generate unique registration numbers for each student
+        // ✅ Get the latest registration number **once** before processing students
+        let nextRegNumber = await generateNextRegNumber();
         const validatedStudents = [];
-        let nextRegNumber = await generateNextRegNumber(); // Start from the latest number
 
         for (let student of students) {
-            if (!student.name || !student.email || !student.password || !student.grade.trim()) {
+            if (!student.name || !student.dob || !student.email || !student.phone || !student.grade || !student.Sem || !student.password) {
                 console.error("❌ Missing fields for student:", student);
                 return res.status(400).json({ message: "Missing required fields (name, email, grade, password)" });
             }
 
+            // ✅ Assign a unique registration number for each student in the loop
+            let studentRegNumber = nextRegNumber++;
+            
+            // 🔐 Hash the password
+            const hashedPassword = await bcrypt.hash(student.password, 10);
+
             validatedStudents.push({
                 ...student,
-                registrationNumber: nextRegNumber.toString()
+                registrationNumber: studentRegNumber.toString(),
+                password: hashedPassword
             });
-
-            nextRegNumber++; // Increment for the next student
         }
 
         console.log("✅ Inserting students into database...");
-        const addedStudents = await Student.insertMany(validatedStudents);
-        console.log("🎉 Students added successfully!", addedStudents);
+        const addedStudents = await Student.insertMany(validatedStudents, { session });
 
+        await session.commitTransaction();
+        session.endSession();
+
+        console.log("🎉 Students added successfully!", addedStudents);
         res.status(201).json({ students: addedStudents });
 
     } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        
         console.error("🔥 Error adding students:", error);
         res.status(500).json({ message: "Error adding students", error: error.message });
     }
 });
+// Get students by class ID
+router.get("/class/:classId", async (req, res) => {
+    try {
+      const students = await Student.find({ classId: req.params.classId });
+      res.json(students);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      res.status(500).json({ message: "Error fetching students" });
+    }
+  });
+  
 
+router.get("/grade/:grade", getStudentsByGrade);
+router.get('/getall', getAllStudents);
+router.post('/', createStudent);
+router.post("/login", studentLogin);
 
 export default router;

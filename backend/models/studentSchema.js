@@ -1,5 +1,3 @@
-
-
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 const studentSchema = new mongoose.Schema({
@@ -15,12 +13,27 @@ const studentSchema = new mongoose.Schema({
         unique: true,
         trim:true
     },
+    dob:{
+        type:Date,
+        required:true
+    },
     email:{
         type: String,
         required: true,
         unique: true
     },
+    phone:{
+type:Number,
+required:true,
+unique:true,
+minlength:10,maxlength:10
+    },
     grade: {
+        type: String,
+        required: true ,
+        trim:true 
+    },
+    Sem: {
         type: String,
         required: true ,
         trim:true 

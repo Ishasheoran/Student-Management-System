@@ -10,6 +10,10 @@ const classSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    Sem:{
+      type:String,
+      required:true
+    },
     subjects: [subjectSchema],
   },
   { timestamps: true }
