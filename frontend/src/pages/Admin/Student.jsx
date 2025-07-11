@@ -248,7 +248,7 @@ const[selectedSem, setSelectedSem]=useState("")
 
     const fetchClasses = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/class");
+            const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/class");
             setClasses(response.data.classes);
         } catch (error) {
             console.error("Error fetching classes:", error);
@@ -257,7 +257,7 @@ const[selectedSem, setSelectedSem]=useState("")
 
     const fetchStudents = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/students/getall");
+            const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/students/getall");
             setStudents(response.data.students);
         } catch (error) {
             console.error("Error fetching students", error);
@@ -347,7 +347,7 @@ const[selectedSem, setSelectedSem]=useState("")
     }
 
     try {
-        const response = await axios.post("http://localhost:8000/api/students/bulk", { students: newStudents });
+        const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/students/bulk", { students: newStudents });
 
         alert("✅ Students added successfully!");
         setStudents([...students, ...response.data.students]);
