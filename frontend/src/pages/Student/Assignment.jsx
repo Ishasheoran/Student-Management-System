@@ -12,7 +12,7 @@ const StudentAssignments = () => {
   const fetchAssignments = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/assignment/getall"
+        "https://student-management-system-pm1u.onrender.com/api/assignment/getall"
       );
       setAssignments(response.data.assignments);
     } catch (error) {
