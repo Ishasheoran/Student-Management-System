@@ -13,7 +13,7 @@ const TeacherSignin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/teacher/login",
+        "https://student-management-system-pm1u.onrender.com/api/teacher/login",
         { email, password }
       );
 
