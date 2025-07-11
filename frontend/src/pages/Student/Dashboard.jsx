@@ -8,13 +8,14 @@ const StudentDashboard = () => {
     
       
       {/* Add link to Exam Page */}
-      <Link to="/student/exam">
+      <Link to="/Student/Exam">
         <button> Exam Results</button>
       </Link>
-
-      {/* Add link to Attendance Page */}
-      <Link to="/student/attendance">
-        <button> Attendance</button>
+      <Link to="/student/announcements">
+        <button> Announcements</button>
+      </Link>
+       <Link to="/student/assignments">
+        <button> Assignments</button>
       </Link>
     </div></div>
     </>

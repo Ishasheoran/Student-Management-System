@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Slidbar from "./Slidbar";
+
 import Sidebar from "./Slidbar";
 
 const AdminTeacher = () => {

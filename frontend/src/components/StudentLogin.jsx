@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import "../styles/sign.css";
 const StudentLogin = () => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -18,12 +18,15 @@ const StudentLogin = () => {
         password,
       });
 
-      if (response.data.success) {
-        localStorage.setItem("studentToken", response.data.token); // Store token
-        navigate("/Student/Dashboard"); // Redirect to dashboard
-      } else {
-        setError("Invalid credentials. Please try again.");
-      }
+     if (response.data.success) {
+  localStorage.setItem("studentToken", response.data.token);
+  localStorage.setItem(
+    "registrationNumber",
+    response.data.student.registrationNumber
+  );
+  navigate("/Student/Dashboard");
+}
+
     } catch (error) {
       setError("Login failed. Check your credentials.");
       console.error("Login error:", error);
@@ -31,10 +34,10 @@ const StudentLogin = () => {
   };
 
   return (
-    <div className="main">
+    <div className="sign-container">
       <h2>Student Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin} id="sign">
+      <form onSubmit={handleLogin}  className="sign-form">
         <input
           type="text"
           placeholder="Registration Number"
@@ -44,7 +47,7 @@ const StudentLogin = () => {
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password (Max 6 chars)"
           value={password}
           onChange={(e) =>{
             const value = e.target.value;

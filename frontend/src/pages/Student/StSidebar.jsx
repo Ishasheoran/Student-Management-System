@@ -24,15 +24,13 @@ const StSidebar = () => {
         <Link to="/Student/Exam">
            {isOpen && "Exam"}
         </Link>
-        <Link to="/Student/Attendance">
-           {isOpen && "Attendance"}
+        <Link to="/student/assignments">
+           {isOpen && "Assignment"}
         </Link>
     
-         {/* <Link to="/Admin/Student">
-               {isOpen && "Students"}</Link>
-        <Link to="/Admin/Classes">
-                   {isOpen && "Classes"} */}
-                {/* </Link> */}
+          <Link to="/student/announcements">
+           {isOpen && "Announcement"}
+        </Link>
       </div>
     </div>
   );

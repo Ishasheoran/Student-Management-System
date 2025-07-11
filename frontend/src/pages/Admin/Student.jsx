@@ -239,8 +239,8 @@ const AdminStudent = () => {
     const [newStudents, setNewStudents] = useState([]);
     const [students, setStudents] = useState([]);
     const [classes, setClasses] = useState([]);
-    const [selectedClass, setSelectedClass] = useState("");
-
+    const [selectedDept, setSelectedDept] = useState("");
+const[selectedSem, setSelectedSem]=useState("")
     useEffect(() => {
         fetchStudents();
         fetchClasses();
@@ -248,7 +248,7 @@ const AdminStudent = () => {
 
     const fetchClasses = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/classes/getall");
+            const response = await axios.get("http://localhost:8000/api/class");
             setClasses(response.data.classes);
         } catch (error) {
             console.error("Error fetching classes:", error);
@@ -269,22 +269,23 @@ const AdminStudent = () => {
             alert("Enter a valid number of students.");
             return;
         }
-        if (!selectedClass) {
+        if (!selectedDept) {
             alert("Please select a class before proceeding.");
             return;
         }
     
         const studentArray = Array.from({ length: studentsCount }, () => ({
             name: "",
+            dob:"",
             email: "",
-            grade: selectedClass,
+            phone:"",
+            grade: selectedDept,
+            Sem:selectedSem,
             password: "" // Leave blank initially, generate when the user enters a name
         }));
     
         setNewStudents(studentArray);
     };
-    
-
     const handleChange = (index, field, value) => {
         const updatedStudents = [...newStudents];
     
@@ -300,41 +301,69 @@ const AdminStudent = () => {
     
         setNewStudents(updatedStudents);
     };
-    
-
+    // const handleAddStudent = async (e) => {
+    //     e.preventDefault();
+    //     console.log("🚀 Sending student data:", JSON.stringify(newStudents, null, 2));
+    //     if (newStudents.some(student =>
+    //         !student.name.trim() ||
+    //         // !student.dob.trim() ||
+    //         !student.email.trim() ||
+    //         !student.phone.trim() ||
+    //         !student.grade.trim() ||
+    //         !student.Sem.trim() ||
+    //         !student.password.trim()
+    //     )) {
+    //         alert("Please fill out all fields.");
+    //         return;
+    //     }
+    //     try {
+    //         const response = await axios.post("http://localhost:8000/api/students/bulk", { students: newStudents });
+    //         alert("Students added successfully!");
+    //         setStudents([...students, ...response.data.students]);
+    //         setNewStudents([]);
+    //         setStudentsCount(0);
+    //     } catch (error) {
+    //         console.error("🔥 Error adding students:", error);
+    //         alert(`Failed to add students: ${error.response?.data?.message || error.message}`);
+    //     }
+    // };
     const handleAddStudent = async (e) => {
-        e.preventDefault();
-        console.log("🚀 Sending student data:", JSON.stringify(newStudents, null, 2));
+    e.preventDefault();
 
-        if (newStudents.some(student =>
-            !student.name.trim() ||
-            !student.email.trim() ||
-            !student.grade.trim() ||
-            !student.password.trim()
-        )) {
-            alert("Please fill out all fields.");
-            return;
-        }
+    console.log("🚀 Sending student data:", JSON.stringify(newStudents, null, 2));
 
-        try {
-            const response = await axios.post("http://localhost:8000/api/students/bulk", { students: newStudents });
+    // ✅ Validate all fields before sending
+    if (newStudents.some(student =>
+        !student.name?.trim() ||  // ✅ Prevents undefined error
+        !student.email?.trim() ||
+        !student.phone?.trim() ||
+        !student.grade?.trim() ||
+        !student.Sem?.trim() ||
+        !student.password?.trim()
+    )) {
+        alert("❌ Please fill out all fields before submitting.");
+        console.log("❌ Missing fields in:", newStudents);
+        return;
+    }
 
-            alert("Students added successfully!");
-            setStudents([...students, ...response.data.students]);
-            setNewStudents([]);
-            setStudentsCount(0);
-        } catch (error) {
-            console.error("🔥 Error adding students:", error);
-            alert(`Failed to add students: ${error.response?.data?.message || error.message}`);
-        }
-    };
+    try {
+        const response = await axios.post("http://localhost:8000/api/students/bulk", { students: newStudents });
+
+        alert("✅ Students added successfully!");
+        setStudents([...students, ...response.data.students]);
+        setNewStudents([]);
+        setStudentsCount(0);
+    } catch (error) {
+        console.error("🔥 Error adding students:", error.response?.data || error.message);
+        alert(`❌ Failed to add students: ${error.response?.data?.message || error.message}`);
+    }
+};
 
     return (
         <>
             <Sidebar />
             <div className="main">
                 <h1>Student Registration</h1>
-
                 {newStudents.length === 0 && (
                     <div>
                         <input
@@ -344,18 +373,33 @@ const AdminStudent = () => {
                             onChange={(e) => setStudentsCount(Number(e.target.value))}
                             min="1"
                         />
-                        <label>Select Class:</label>
+                        <label>Select Dept:</label>
                         <select
-                            value={selectedClass}
+                            value={selectedDept}
                             onChange={(e) => {
-                                setSelectedClass(e.target.value);
+                                setSelectedDept(e.target.value);
                                 fetchStudents(e.target.options[e.target.selectedIndex].text);
                             }}
                         >
-                            <option value="">-- Select Class --</option>
+                            <option value="">-- Select Sem --</option>
                             {classes.map((ClassItem) => (
                                 <option key={ClassItem._id} value={ClassItem.grade}>
                                     {ClassItem.grade}
+                                </option>
+                            ))}
+                        </select>
+                        <label>Select Sem:</label>
+                        <select
+                            value={selectedSem}
+                            onChange={(e) => {
+                                setSelectedSem(e.target.value);
+                                fetchStudents(e.target.options[e.target.selectedIndex].text);
+                            }}
+                        >
+                            <option value="">-- Select Dept --</option>
+                            {classes.map((ClassItem) => (
+                                <option key={ClassItem._id} value={ClassItem.Sem}>
+                                    {ClassItem.Sem}
                                 </option>
                             ))}
                         </select>
@@ -374,6 +418,13 @@ const AdminStudent = () => {
                                     onChange={(e) => handleChange(index, "name", e.target.value)}
                                     required
                                 />
+                                 <input
+                                    type="date"
+                                    placeholder="DoB"
+                                    value={student.dob}
+                                    onChange={(e) => handleChange(index, "dob", e.target.value)}
+                                    required
+                                />
                                 <input
                                     type="email"
                                     placeholder="Enter Email"
@@ -381,13 +432,14 @@ const AdminStudent = () => {
                                     onChange={(e) => handleChange(index, "email", e.target.value)}
                                     required
                                 />
-                                {/* <input
-                                    type="password"
-                                    placeholder="Password (Max 6 chars)"
-                                    value={student.password}
-                                    onChange={(e) => handleChange(index, "password", e.target.value)}
+                                <input
+                                    type="Number"
+                                    placeholder="Phone no."
+                                    value={student.phone}
+                                    onChange={(e) => handleChange(index, "phone", e.target.value)}
                                     required
-                                /> */}
+                                />
+                               
                             </div>
                         ))}
                         <button type="submit">Add Students</button>

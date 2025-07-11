@@ -30,10 +30,10 @@ const AdminSignin = () => {
   };
 
   return (
-    <div className="main">
+    <div className="sign-container">
       <h2>Admin Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>} {/* Show error if any */}
-      <form onSubmit={handleLogin} id="sign">
+      <form onSubmit={handleLogin}  className="sign-form">
         <input
           type="email"
           placeholder="Email"

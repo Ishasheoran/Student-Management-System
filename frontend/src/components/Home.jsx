@@ -1,30 +1,30 @@
-// import React from "react";
-import  '../styles/home.css'
-
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "./logo.png"
+import "../styles/home.css";
+import logo from "./logo.png";
+
 const Home = () => {
-  return (<> <h1>Hemwati Nandan Bahuguna University</h1>
-  <img src={logo} alt="" srcset="" />
-    <div className='Home'>
-     
-      
-      {/* Add link to Exam Page */}
-      <Link to="/adminLogin">
-        <button>Admin Login</button>
-      </Link>
+  return (
+    <div className="home-container" >
+      <div className="home-content">
+        <img src={logo} alt="University Logo" className="logo-img" />
+        <h1 className="title">Hemwati Nandan Bahuguna University</h1>
 
-      {/* Add link to Attendance Page */}
-      <Link to="/studentsLogin">
-        <button>Student Login</button>
+        <div className="home-buttons">
+          <Link to="/adminLogin">
+            <button className="home-btn">Admin Login</button>
+          </Link>
 
-      </Link>
-      <Link to="/teacherSignin">
-        <button>Teacher Login</button>
-        
-      </Link>
-    </div></>
+          <Link to="/studentsLogin">
+            <button className="home-btn">Student Login</button>
+          </Link>
+
+          <Link to="/teacherSignin">
+            <button className="home-btn">Teacher Login</button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

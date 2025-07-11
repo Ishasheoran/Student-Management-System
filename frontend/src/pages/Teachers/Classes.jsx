@@ -43,23 +43,10 @@ console.error("error in fetching",error)
         }}
     return<>
      <h1>Classes</h1>
-       {/* <form onSubmit={handleAddClass}>
-       <input type="text" name="" id="" placeholder="Ener Class name" value={newClassName} onChange={(e)=> setNewClassName(e.target.value)}/>
-       <button>Add class</button>
-       </form>
-       <div>
-        {Array.isArray(classes) && classes.map((ClassItem, index)=>(
-<ClassItem key={index}>{ClassItem.grade}</ClassItem>        ))}
-       </div> */}
-
-       <table border="1">
+              <table border="1">
                 <thead>
                     <tr>
                         <th>Grade</th>
-                        {/* <th>Registration No.</th>
-                        <th>Class</th>
-                        <th>Subject</th>
-                        <th>Marks</th> */}
                     </tr>
                 </thead>
                 <tbody>
