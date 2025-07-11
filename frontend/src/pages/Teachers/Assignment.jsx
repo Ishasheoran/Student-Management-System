@@ -16,7 +16,7 @@ const TeacherAssignment = () => {
 
     const fetchAssignments = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/assignment/getall");
+            const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/assignment/getall");
             setAssignments(response.data.assignments);
         } catch (error) {
             console.error("Error fetching assignments", error);
@@ -25,7 +25,7 @@ const TeacherAssignment = () => {
 
     const fetchClasses = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/classes/getall");
+            const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/classes/getall");
             setClasses(response.data.classes);
         } catch (error) {
             console.error("Error fetching grades", error);
@@ -47,7 +47,7 @@ const TeacherAssignment = () => {
         formData.append("deadline", newAssignment.deadline);
         formData.append("file", file);
         try {
-            const response = await axios.post("http://localhost:8000/api/assignment", formData, {
+            const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/assignment", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
