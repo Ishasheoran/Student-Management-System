@@ -21,7 +21,7 @@ const AdminTeacher = () => {
 
     const fetchTeachers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/teacher/getall');
+            const response = await axios.get('https://student-management-system-pm1u.onrender.com/api/teacher/getall');
             setTeachers(response.data.teachers);
         } catch (error) {
             console.error("Error fetching teachers", error);
@@ -48,7 +48,7 @@ const AdminTeacher = () => {
             newTeacher.password.trim() !== '' // Ensure password is provided
         ) {
             try {
-                const response = await axios.post('http://localhost:8000/api/teacher/', newTeacher);
+                const response = await axios.post('https://student-management-system-pm1u.onrender.com/api/teacher/', newTeacher);
                 console.log('Response data:', response.data);
                 alert(`✅ Teacher "${newTeacher.name}" added successfully!`);
                 setTeachers([...teachers, response.data.teacher]);
