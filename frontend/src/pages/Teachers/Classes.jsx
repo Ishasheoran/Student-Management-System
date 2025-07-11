@@ -8,7 +8,7 @@ const TeacherClasses=()=>{
     },[])
     const fetchClasses=async()=>{
         try{
-           const response=await axios.get('http://localhost:8000/api/classes/getall');
+           const response=await axios.get('https://student-management-system-pm1u.onrender.com/api/classes/getall');
            if(response.data && Array.isArray(response.data.classes)){
             setClasses(response.data.classes)
            }
@@ -24,7 +24,7 @@ const TeacherClasses=()=>{
         e.preventDefault();
         if(newClassName.trim()!==''){
             try{
-                const response=await axios.post('http://localhost:8000/api/classes',{grade: newClassName})
+                const response=await axios.post('https://student-management-system-pm1u.onrender.com/api/classes',{grade: newClassName})
        console.log('Response data',response.data)
        setClasses(prevClasses=>{
         if(Array.isArray(prevClasses)){
