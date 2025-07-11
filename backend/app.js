@@ -19,7 +19,7 @@ const app = express();
 config({ path: "./config/config.env" });
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://student-management-system-chi-jet.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
