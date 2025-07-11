@@ -15,7 +15,7 @@ const AdminAnnouncements = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/announcements", {
+      const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/announcements", {
         title,
         message,
       });
