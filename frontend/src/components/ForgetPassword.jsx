@@ -10,7 +10,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/reset-password", {
+      const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/auth/reset-password", {
         registrationNumber,
         newPassword
       });
