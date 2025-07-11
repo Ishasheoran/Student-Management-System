@@ -10,7 +10,7 @@ const Announcements = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/announcements");
+      const response = await axios.get("https://student-management-system-pm1u.onrender.com/api/announcements");
       if (response.data.success) {
         setAnnouncements(response.data.announcements);
       } else {
