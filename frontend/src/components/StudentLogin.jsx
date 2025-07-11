@@ -13,7 +13,7 @@ const StudentLogin = () => {
     setError(""); // Reset error
 
     try {
-      const response = await axios.post("http://localhost:8000/api/students/login", {
+      const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/students/login", {
         registrationNumber,
         password,
       });
