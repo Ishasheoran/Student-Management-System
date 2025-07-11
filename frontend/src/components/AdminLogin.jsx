@@ -12,7 +12,7 @@ const AdminSignin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/api/admin/login", {
+      const response = await axios.post("https://student-management-system-pm1u.onrender.com/api/admin/login", {
         email,
         password,
       });
